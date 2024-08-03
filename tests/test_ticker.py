@@ -298,9 +298,16 @@ class TestTickerEarnings(unittest.TestCase):
         self.assertIsInstance(data, pd.DataFrame, "data has wrong type")
         self.assertFalse(data.empty, "data is empty")
         self.assertEqual(len(data), limit, "Wrong number or rows")
+        self.assertEqual(data.index[0].tz.zone, "America/New_York")
 
         data_cached = ticker.get_earnings_dates(limit=limit)
         self.assertIs(data, data_cached, "data not cached")
+
+    def test_earning_dates_have_tz(self):
+        ticker = yf.Ticker("LHA.DE")
+        data = ticker.get_earnings_dates()
+        self.assertEqual(data.index[0].tz.zone, "Europe/Berlin")
+
 
     # Below will fail because not ported to Yahoo API
 
