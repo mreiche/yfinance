@@ -8,21 +8,17 @@ Specific test class:
    python -m unittest tests.ticker.TestTicker
 
 """
-import datetime
-
-import pandas as pd
-import parameterized
-import pytz
-
-from .context import yfinance as yf
-from .context import session_gbl
-from yfinance.exceptions import YFChartError, YFInvalidPeriodError, YFNotImplementedError, YFTickerMissingError, YFTzMissingError
-from datetime import datetime
 
 import unittest
-import requests_cache
 from typing import Union, Any, get_args, _GenericAlias
 from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+
+import pandas as pd
+import requests_cache
+
+from yfinance.exceptions import YFChartError, YFInvalidPeriodError, YFNotImplementedError, YFTickerMissingError, YFTzMissingError
+from .context import session_gbl
+from .context import yfinance as yf
 
 ticker_attributes = (
     ("major_holders", pd.DataFrame),
