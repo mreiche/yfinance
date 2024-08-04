@@ -8,12 +8,16 @@ Specific test class:
    python -m unittest tests.ticker.TestTicker
 
 """
+import datetime
+
 import pandas as pd
+import parameterized
+import pytz
 
 from .context import yfinance as yf
 from .context import session_gbl
 from yfinance.exceptions import YFChartError, YFInvalidPeriodError, YFNotImplementedError, YFTickerMissingError, YFTzMissingError
-
+from datetime import datetime
 
 import unittest
 import requests_cache
@@ -289,6 +293,7 @@ class TestTickerEarnings(unittest.TestCase):
         data = self.ticker.earnings_dates
         self.assertIsInstance(data, pd.DataFrame, "data has wrong type")
         self.assertFalse(data.empty, "data is empty")
+        self.assertEqual(data.index.tz.zone, "America/New_York")
 
     def test_earnings_dates_with_limit(self):
         # use ticker with lots of historic earnings
@@ -329,6 +334,15 @@ class TestTickerEarnings(unittest.TestCase):
 
     #     data_cached = self.ticker.earnings_trend
     #     self.assertIs(data, data_cached, "data not cached")
+
+    def test_ticker_has_tz(self):
+        test_data = {"O2D.DE": "UTC", "LHA.DE": "Europe/Berlin"}
+        for symbol, tz in test_data.items():
+            with self.subTest(f"{symbol}-{tz}"):
+                ticker = yf.Ticker(symbol)
+                data = ticker.get_earnings_dates(limit=1)
+                self.assertIsNotNone(data.index.tz)
+                self.assertEqual(data.index.tz.zone, tz)
 
 
 class TestTickerHolders(unittest.TestCase):
