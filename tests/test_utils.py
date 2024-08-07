@@ -90,11 +90,13 @@ class TestPandas(unittest.TestCase):
         series = pd.Series(self.date_strings)
         series = series.map(pd.Timestamp)
         converted = pd.to_datetime(series)
+        self.assertIsNotNone(converted[0].tz)
 
     def test_mixed_timezones_to_datetime(self):
         series = pd.Series(self.date_strings)
         series = series.map(pd.Timestamp)
         converted = pd.to_datetime(series, utc=True)
+        self.assertIsNotNone(converted[0].tz)
         i = 0
         for dt in converted:
             dt: datetime
