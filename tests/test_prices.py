@@ -1,17 +1,14 @@
 import datetime
-
-import pytz
-
-from .context import yfinance as yf
-from .context import session_gbl
-
+import datetime as _dt
+import os
 import unittest
 
-import os
-import datetime as _dt
-import pytz as _tz
 import numpy as _np
 import pandas as _pd
+import pytz as _tz
+
+from .context import session_gbl
+from .context import yfinance as yf
 
 
 class TestPriceHistory(unittest.TestCase):
