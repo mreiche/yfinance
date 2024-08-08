@@ -1,4 +1,3 @@
-import datetime
 import datetime as _dt
 import os
 import unittest
@@ -49,7 +48,7 @@ class TestPriceHistory(unittest.TestCase):
     def test_download_multi_small_interval(self):
         use_tkrs = ["AAPL", "0Q3.DE", "ATVI"]
         df = yf.download(use_tkrs, period="1d", interval="5m")
-        self.assertEqual(df.index.tz, datetime.timezone.utc)
+        self.assertEqual(df.index.tz, _dt.timezone.utc)
 
     def test_download_with_invalid_ticker(self):
         #Checks if using an invalid symbol gives the same output as not using an invalid symbol in combination with a valid symbol (AAPL)
